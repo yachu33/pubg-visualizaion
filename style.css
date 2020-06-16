@@ -45,6 +45,7 @@
   color : white;
 }
 
+
 #left {
   width: absolute;
   line-height: absolute;
@@ -54,4 +55,53 @@
   font-weight: bold;
   font-family: times;
   color : white;
+}
+
+/* button {
+  background-color: #F4C117;
+  border: none;
+  color: black;
+  padding: 3px 6px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  margin: 4px 2px;
+  cursor: pointer;
+  
+} */
+
+button {
+  box-sizing: border-box;
+  -webkit-appearance: none;
+     -moz-appearance: none;
+          appearance: none;
+  background-color: transparent;
+  border: 2px solid #F4C117;
+  border-radius: 0.3em;
+  color: #F4C117;
+  cursor: pointer;
+  /* display: -webkit-box; */
+  /* display: flex; */
+  align-self: center;
+  font-size: 1rem;
+  line-height: 1;
+  margin: 2px;
+  padding: 5px 5px;
+  text-decoration: none;
+  text-align: center;
+  text-transform: uppercase;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
+}
+button:hover, button:focus {
+  color: #fff;
+  outline: 0;
+}
+
+button {
+  -webkit-transition: box-shadow 300ms ease-in-out, color 300ms ease-in-out;
+  transition: box-shadow 300ms ease-in-out, color 300ms ease-in-out;
+}
+button:hover {
+  box-shadow: 0 0 40px 40px #F4C117 inset;
 }
