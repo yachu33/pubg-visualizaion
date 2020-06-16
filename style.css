@@ -4,23 +4,38 @@
   font-family: times;
   font-weight: bold;
   text-align: left;
-  color: black;
+  color: #091D2C;
   background: white;
   padding: 10px;
   border-radius: 8px;
   pointer-events: none;
 }
 
-.null{
-  background : #000000;
-  opacity : 0;
+.null {
+  background: #000000;
+  opacity: 0;
 }
 
-.text{
+.text {
   font-size: 25px;
   font-family: times;
-  color : white;
+  font-weight: bold;
+  color: white;
   clear: both;
+}
+
+.text3 {
+  font-size: 18px;
+  font-weight: bold;
+  font-family: times;
+  color: white;
+}
+
+.text4 {
+  font-size: 15px;
+  font-weight: bold;
+  font-family: times;
+  color: white;
 }
 
 #all {
@@ -30,19 +45,13 @@
   position: absolute;
   left: 50%;
   margin-left: -580px;
-  font-size: 15px;
-  font-family: times;
-  color : white;
 }
 
 #map {
   width: absolute;
   line-height: absolute;
-  padding: 20px;
+  padding: 10px;
   float: left;
-  font-size: 15px;
-  font-family: times;
-  color : white;
 }
 
 
@@ -54,7 +63,7 @@
   font-size: 15px;
   font-weight: bold;
   font-family: times;
-  color : white;
+  color: white;
 }
 
 /* button {

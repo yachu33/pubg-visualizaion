@@ -17,27 +17,33 @@ const svg = d3
 const killer_bar_svg = d3
   .select("#killer_bar")
   .append("svg")
-  .attr("height", 200)
+  .attr("height", 210)
   .append("g");
 
 const victim_bar_svg = d3
   .select("#victim_bar")
   .append("svg")
-  .attr("height", 200)
+  .attr("height", 210)
   .append("g");
 
-// .attr("transform", `translate(${margin.left}, ${margin.right})`);
+const winnermap_svg = d3
+  .select("#winnermap")
+  .append("svg")
+  .attr("width", width)
+  .attr("height", height + margin.top + margin.bottom)
+  .append("g");
 
 var div = d3.select("#all").append("div").attr("class", "tooltip").style("opacity", 0);
 
 let map_type = "ERANGEL",
+  map_type_win = "ERANGEL",
   weapon = "",
   rank = "",
   t1 = "",
   t2 = "";
 
 let yScale = d3.scaleLinear()
-  .domain([0,3000])
+  .domain([0, 3000])
   .range([700, 0]);
 
 function drawData(killed_data) {
@@ -52,6 +58,34 @@ function drawData(killed_data) {
     .attr("cy", (d) => (d.victim_position_y * height) / 800000)
     .on("mouseover", (d) => mouseover(d))
     .on('mouseout', (d) => mouseout(d));
+
+  svg
+    .append("text")
+    .attr("transform", `translate(0, 820)`)
+    .attr("font-family", "times")
+    .attr("fill", "white")
+    .text("紅點表示玩家死亡位置");
+}
+
+function drawWinData(win_data) {
+  winnermap_svg
+    .selectAll("dot")
+    .data(win_data)
+    .enter()
+    .append("circle")
+    .attr("fill", "red")
+    .attr("r", "2")
+    .attr("cx", (d) => (d.killer_position_x * width) / 800000)
+    .attr("cy", (d) => (d.killer_position_y * height) / 800000)
+    .on("mouseover", (d) => mouseoverWin(d))
+    .on('mouseout', (d) => mouseout(d));
+
+  winnermap_svg
+    .append("text")
+    .attr("transform", `translate(0, 820)`)
+    .attr("font-family", "times")
+    .attr("fill", "white")
+    .text("紅點表示吃雞玩家位置");
 }
 
 function drawBar(killed_data) {
@@ -85,19 +119,19 @@ function drawBar(killed_data) {
     .enter()
     .append("rect")
     .attr("fill", "#F4C117")
-    .attr('x', (d) => d.key * 3+1.5)
+    .attr('x', (d) => d.key * 3 + 1.5)
     .attr('y', (d) => yScale(d.values) - 525)
     .attr('width', 2)
     .attr('height', (d) => 700 - yScale(d.values));
 
-    killer_bar_svg
+  killer_bar_svg
     .append("line")
     .attr("stroke", "white")
     .attr("transform", `translate(0, 176)`)
     .attr("x1", 0)
     .attr("x2", 300)
 
-    killer_bar_svg
+  killer_bar_svg
     .append("line")
     .attr("stroke", "white")
     .attr("stroke-width", "2")
@@ -105,33 +139,33 @@ function drawBar(killed_data) {
     .attr("y1", -175)
     .attr("y2", 0)
 
-    killer_bar_svg
+  killer_bar_svg
     .append("text")
     .attr("transform", `translate(0, 190)`)
     .attr("font-family", "times")
     .attr("fill", "white")
     .text("1");
 
-    killer_bar_svg
+  killer_bar_svg
     .append("text")
     .attr("transform", `translate(280, 190)`)
     .attr("font-family", "times")
     .attr("fill", "white")
     .text("99");
 
-    killer_bar_svg
+  killer_bar_svg
     .append("text")
     .attr("transform", `translate(4, 13)`)
     .attr("font-family", "times")
     .attr("fill", "white")
-    .text("人數");
+    .text("People");
 
-    killer_bar_svg
+  killer_bar_svg
     .append("text")
-    .attr("transform", `translate(270, 160)`)
+    .attr("transform", `translate(233, 210)`)
     .attr("font-family", "times")
     .attr("fill", "white")
-    .text("名次");
+    .text("Placement");
 
 
   victim_bar_svg
@@ -145,14 +179,14 @@ function drawBar(killed_data) {
     .attr('width', 2)
     .attr('height', (d) => 700 - yScale(d.values));
 
-    victim_bar_svg
+  victim_bar_svg
     .append("line")
     .attr("stroke", "white")
     .attr("transform", `translate(0, 176)`)
     .attr("x1", 0)
     .attr("x2", 300)
 
-    victim_bar_svg
+  victim_bar_svg
     .append("line")
     .attr("stroke", "white")
     .attr("stroke-width", "2")
@@ -160,33 +194,33 @@ function drawBar(killed_data) {
     .attr("y1", -175)
     .attr("y2", 0)
 
-    victim_bar_svg
+  victim_bar_svg
     .append("text")
     .attr("transform", `translate(0, 190)`)
     .attr("font-family", "times")
     .attr("fill", "white")
     .text("1");
 
-    victim_bar_svg
+  victim_bar_svg
     .append("text")
     .attr("transform", `translate(278, 190)`)
     .attr("font-family", "times")
     .attr("fill", "white")
     .text("100");
 
-    victim_bar_svg
+  victim_bar_svg
     .append("text")
     .attr("transform", `translate(4, 13)`)
     .attr("font-family", "times")
     .attr("fill", "white")
-    .text("人數");
+    .text("People");
 
-    victim_bar_svg
+  victim_bar_svg
     .append("text")
-    .attr("transform", `translate(270, 160)`)
+    .attr("transform", `translate(233, 210)`)
     .attr("font-family", "times")
     .attr("fill", "white")
-    .text("名次");
+    .text("Placement");
 }
 
 d3.json(
@@ -227,9 +261,9 @@ d3.json(
           updateData(this.value, weapon, t1, t2, rank);
         }
       });
-
     const weapons = killed_data.map((item) => item.killed_by);
     const distinctWeapon = [...new Set(weapons)];
+    // console.log(distinctWeapon);
     let weapon_options = d3
       .select("#weapons")
       .append("input")
@@ -299,6 +333,28 @@ d3.json(
       
   });
 
+d3.csv("5000winner.csv").then(
+  (win_data) => {
+    // console.log(win_data);
+    drawWinData(win_data);
+    let map_option = d3
+      .select("#mapss")
+      .selectAll("button")
+      .data(["ERANGEL", "MIRAMAR"])
+      .enter()
+      .append("button")
+      .attr("value", (d) => d)
+      .text((d) => d)
+      .on("click", function() {
+        if (map_type_win != this.value) {
+          map_type_win = this.value;
+          drawWinMap(map_type_win);
+          updateWinData(this.value);
+        }
+      });
+  }
+);
+
 function drawMap(map_type) {
   svg.selectAll("image").remove();
 
@@ -327,8 +383,36 @@ function updateData(map_type, weapon, t1, t2, rank) {
     drawBar(killed_data);
   });
 }
+function drawWinMap(map_type_win) {
+  winnermap_svg.selectAll("image").remove();
+
+  if (map_type_win == "ERANGEL") {
+    winnermap_svg
+      .append("image")
+      .attr("xlink:href", "erangel.jpg")
+      .attr("width", width)
+      .attr("height", height);
+  } else {
+    winnermap_svg
+      .append("image")
+      .attr("xlink:href", "miramar.jpg")
+      .attr("width", width)
+      .attr("height", height);
+  }
+}
+drawWinMap(map_type_win);
+function updateWinData(map_type_win) {
+  // d3.json(
+  //   `https://pubg-flask.herokuapp.com/get_data?map=${map_type}&weapon=${weapon}`
+  // )
+  d3.csv("5000winner.csv").then((win_data) => {
+    winnermap_svg.selectAll("circle").remove();
+    drawWinData(win_data);
+  });
+}
 
 function mouseover(d) {
+  console.log("aa");
   div.transition()
     .duration(200)
     .style("opacity", 0.9);
@@ -338,8 +422,21 @@ function mouseover(d) {
       "[Killed By]" + "&emsp;" + d.killed_by + "<br/>" +
       "[Killer Name]" + "&emsp;" + d.killer_name + "<br/>" +
       "[Killer Placement]" + "&emsp;" + d.killer_placement + "<br/>")
-    .style("left", (d.victim_position_x * width) / 800000 + "px")
+    .style("left", (d.victim_position_x * width) / 800000 + 50 + "px")
     .style("top", (d.victim_position_y * height) / 800000 + 50 + "px");
+}
+
+function mouseoverWin(d) {
+  console.log("bb");
+  div.transition()
+    .duration(200)
+    .style("opacity", 0.9);
+
+  div.html("[Name]" + "&emsp;" + d.killer_name + "<br/>" +
+      "[Placement]" + "&emsp;" + d.killer_placement + "<br/>" +
+      "[Weapon]" + "&emsp;" + d.killed_by)
+    .style("left", (d.killer_position_x * width) / 800000 + 50 + "px")
+    .style("top", (d.killer_position_y * height) / 800000 + 50 + "px");
 }
 
 function mouseout(d) {
