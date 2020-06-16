@@ -239,7 +239,9 @@ d3.json(
         t1 = "";
         t2 = "";
         rank = "";
-        resetOptions(map_type)
+        d3.select("#weaponsTex").text("Weapons: ");
+        d3.select("#ranksTex").text("Ranks: ");
+        resetOptions(map_type);
     });
     let map_options = d3
       .select("#maps")
