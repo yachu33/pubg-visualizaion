@@ -1,0 +1,57 @@
+.tooltip {
+  position: absolute;
+  font-size: 15px;
+  font-family: times;
+  font-weight: bold;
+  text-align: left;
+  color: black;
+  background: white;
+  padding: 10px;
+  border-radius: 8px;
+  pointer-events: none;
+}
+
+.null{
+  background : #000000;
+  opacity : 0;
+}
+
+.text{
+  font-size: 25px;
+  font-family: times;
+  color : white;
+  clear: both;
+}
+
+#all {
+  width: 1160px;
+  padding: 10px;
+  overflow: hidden;
+  position: absolute;
+  left: 50%;
+  margin-left: -580px;
+  font-size: 15px;
+  font-family: times;
+  color : white;
+}
+
+#map {
+  width: absolute;
+  line-height: absolute;
+  padding: 20px;
+  float: left;
+  font-size: 15px;
+  font-family: times;
+  color : white;
+}
+
+#left {
+  width: absolute;
+  line-height: absolute;
+  padding: 10px;
+  float: left;
+  font-size: 15px;
+  font-weight: bold;
+  font-family: times;
+  color : white;
+}
