@@ -17,13 +17,13 @@ const svg = d3
 const killer_bar_svg = d3
   .select("#killer_bar")
   .append("svg")
-  .attr("height", 200)
+  .attr("height", 210)
   .append("g");
 
 const victim_bar_svg = d3
   .select("#victim_bar")
   .append("svg")
-  .attr("height", 200)
+  .attr("height", 210)
   .append("g");
 
 // .attr("transform", `translate(${margin.left}, ${margin.right})`);
@@ -50,6 +50,13 @@ function drawData(killed_data) {
     .attr("cy", (d) => (d.victim_position_y * height) / 800000)
     .on("mouseover", (d) => mouseover(d))
     .on('mouseout', (d) => mouseout(d));
+
+    svg
+    .append("text")
+    .attr("transform", `translate(0, 820)`)
+    .attr("font-family", "times")
+    .attr("fill", "white")
+    .text("紅點表示玩家死亡位置");
 }
 
 function drawBar(killed_data) {
@@ -122,14 +129,14 @@ function drawBar(killed_data) {
     .attr("transform", `translate(4, 13)`)
     .attr("font-family", "times")
     .attr("fill", "white")
-    .text("人數");
+    .text("People");
 
     killer_bar_svg
     .append("text")
-    .attr("transform", `translate(270, 160)`)
+    .attr("transform", `translate(233, 210)`)
     .attr("font-family", "times")
     .attr("fill", "white")
-    .text("名次");
+    .text("Placement");
 
 
   victim_bar_svg
@@ -177,14 +184,14 @@ function drawBar(killed_data) {
     .attr("transform", `translate(4, 13)`)
     .attr("font-family", "times")
     .attr("fill", "white")
-    .text("人數");
+    .text("People");
 
     victim_bar_svg
     .append("text")
-    .attr("transform", `translate(270, 160)`)
+    .attr("transform", `translate(233, 210)`)
     .attr("font-family", "times")
     .attr("fill", "white")
-    .text("名次");
+    .text("Placement");
 }
 
 // d3.json(`https://pubg-flask.herokuapp.com/get_data?map=${map_type}`)
@@ -295,7 +302,7 @@ function mouseover(d) {
       "[Killed By]" + "&emsp;" + d.killed_by + "<br/>" +
       "[Killer Name]" + "&emsp;" + d.killer_name + "<br/>" +
       "[Killer Placement]" + "&emsp;" + d.killer_placement + "<br/>")
-    .style("left", (d.victim_position_x * width) / 800000 + "px")
+    .style("left", (d.victim_position_x * width) / 800000 + 50 + "px")
     .style("top", (d.victim_position_y * height) / 800000 + 50 + "px");
 }
 
