@@ -227,8 +227,8 @@ function drawBar(killed_data) {
 }
 
 d3.json(
-  `https://idyllic-chimera-280508.ue.r.appspot.com/get_data?map=${map_type}`
-)
+    `https://idyllic-chimera-280508.ue.r.appspot.com/get_data?map=${map_type}`
+  )
   .then((killed_data) => {
     drawData(killed_data);
     drawBar(killed_data);
@@ -236,7 +236,7 @@ d3.json(
     let reset = d3.select("#reset")
       .append("button")
       .text("全部清除")
-      .on("click", function(){
+      .on("click", function() {
         weapon = "";
         t1 = "";
         t2 = "";
@@ -244,7 +244,7 @@ d3.json(
         d3.select("#weaponsTex").text("武器： ");
         d3.select("#ranksTex").text("玩家等級： ");
         resetOptions(map_type);
-    });
+      });
 
     let map_options = d3
       .select("#maps")
@@ -254,17 +254,17 @@ d3.json(
       .append("button")
       .attr("value", (d) => d)
       .text((d) => d)
-      .on("click", function () {
+      .on("click", function() {
         if (map_type != this.value) {
           map_type = this.value;
           drawMap(map_type);
           d3.select("#mapTex").text("地圖： " + map_type);
           d3.select("#weaponsTex").text("武器： ");
           d3.select("#ranksTex").text("玩家等級： ");
-          weapon="";
-          t1="";
-          t2="";
-          rank="";
+          weapon = "";
+          t1 = "";
+          t2 = "";
+          rank = "";
           updateData(this.value, weapon, t1, t2, rank);
         }
       });
@@ -277,13 +277,13 @@ d3.json(
       .append("input")
       .attr("type", "text")
       .attr("list", "weapon-list")
-      .on("focus", function () {
+      .on("focus", function() {
         this.value = "";
       })
-      .on("mouseenter", function () {
+      .on("mouseenter", function() {
         this.value = "";
       })
-      .on("change", function () {
+      .on("change", function() {
         weapon = this.value;
         d3.select("#weaponsTex").text("武器： " + weapon);
         updateData(map_type, this.value, t1, t2, rank);
@@ -310,7 +310,7 @@ d3.json(
       .append("button")
       .attr("value", (d) => d)
       .text((d) => d)
-      .on("click", function () {
+      .on("click", function() {
         rank = this.value;
         d3.select("#ranksTex").text("玩家等級： " + rank);
 
@@ -318,26 +318,26 @@ d3.json(
       });
 
     d3.select(".multirange.original")
-    .on("change", function() {
-      low = d3.select(".multirange.ghost").style("--low");
-      high = d3.select(".multirange.ghost").style("--high");
-      t1 = (+low.replace("%", "")-1) * 0.01 * 2000;
-      t2 = (+high.replace("%", "")+1) * 0.01 * 2000;
-      updateData(map_type, weapon, t1, t2, rank);
-      // console.log(t1, t2);
-    })
+      .on("change", function() {
+        low = d3.select(".multirange.ghost").style("--low");
+        high = d3.select(".multirange.ghost").style("--high");
+        t1 = (+low.replace("%", "") - 1) * 0.01 * 2000;
+        t2 = (+high.replace("%", "") + 1) * 0.01 * 2000;
+        updateData(map_type, weapon, t1, t2, rank);
+        // console.log(t1, t2);
+      })
 
     d3.select(".multirange.ghost")
-    .on("change", function () {
-      low = d3.select(".multirange.ghost").style("--low");
-      high = d3.select(".multirange.ghost").style("--high");
-       t1 = (+low.replace("%", "") - 1) * 0.01 * 2000;
-       t2 = (+high.replace("%", "") + 1) * 0.01 * 2000;
-      updateData(map_type, weapon, t1, t2, rank);
-    });
+      .on("change", function() {
+        low = d3.select(".multirange.ghost").style("--low");
+        high = d3.select(".multirange.ghost").style("--high");
+        t1 = (+low.replace("%", "") - 1) * 0.01 * 2000;
+        t2 = (+high.replace("%", "") + 1) * 0.01 * 2000;
+        updateData(map_type, weapon, t1, t2, rank);
+      });
   });
 
-d3.csv("5000winner.csv").then(
+d3.csv("winners5000.csv").then(
   (win_data) => {
     drawWinData(win_data);
     let map_option = d3
@@ -388,6 +388,7 @@ function updateData(map_type, weapon, t1, t2, rank) {
     drawBar(killed_data);
   });
 }
+
 function drawWinMap(map_type_win) {
   winnermap_svg.selectAll("image").remove();
 
@@ -407,13 +408,14 @@ function drawWinMap(map_type_win) {
 }
 
 drawWinMap(map_type_win);
+
 function updateWinData(map_type_win) {
-  d3.csv("5000winner.csv").then((win_data) => {
+  d3.csv("winners5000.csv").then((win_data) => {
     winnermap_svg.selectAll("circle").remove();
 
-    let map_win = win_data.filter(function (d) {
-     return d.map == map_type_win;
-   });
+    let map_win = win_data.filter(function(d) {
+      return d.map == map_type_win;
+    });
 
     drawWinData(map_win);
   });
@@ -439,7 +441,7 @@ function mouseoverWin(d) {
     .style("opacity", 0.9);
 
   div2.html("[Name]" + "&emsp;" + d.killer_name + "<br/>" +
-            "[Weapon]" + "&emsp;" + d.killed_by)
+      "[Weapon]" + "&emsp;" + d.killed_by)
     .style("left", (d.killer_position_x * width) / 800000 + 200 + "px")
     .style("top", (d.killer_position_y * height) / 800000 + 1400 + "px");
 }
