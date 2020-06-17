@@ -42,6 +42,27 @@
   color: white;
 }
 
+#left_word {
+  width: 48%;
+  line-height: absolute;
+  padding: 10px;
+  float: left;
+}
+
+#right_word {
+  width: 48%;
+  line-height: absolute;
+  padding: 10px;
+  float: left;
+}
+
+#center_word {
+  width: 96%;
+  line-height: absolute;
+  padding: 10px;
+  float: left;
+}
+
 #all {
   width: 1160px;
   padding: 10px;
