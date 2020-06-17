@@ -2,21 +2,24 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PUBG</title>
-    <script src="multirange.js"></script>
-    <link rel="stylesheet" href="multirange.css">
-    <script src="https://d3js.org/d3.v5.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PUBG</title>
+  <script src="multirange.js"></script>
+  <link rel="stylesheet" href="multirange.css">
+  <script src="https://d3js.org/d3.v5.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <link rel="stylesheet" href="style.css">
 </head>
 
 <body style="background-color:#091D2C">
-  <div class="null">before</div><div class="null">before</div>
+  <div class="null">before</div>
+  <div class="null">before</div>
 
   <div class="text" align="center">
     <h2>Be a Free Chicken Winner in PUBG</h2>
+    <p class="text4">Data Source：https://www.kaggle.com/skihikingkevin/pubg-match-deaths</p>
+
   </div>
 
   <div id="all" align="center">
@@ -26,12 +29,12 @@
       <hr />
     </div>
     <div id="left" align="left">
-        <h2 class="text" align="center">Options</h2>
-        <hr />
-        <div class="null">before</div>
-        <div id="reset" align="center">
-            <!-- <p>Reset:</p> -->
-        </div>
+      <h2 class="text" align="center">Options</h2>
+      <hr />
+      <div class="null">before</div>
+      <div id="reset" align="center">
+        <!-- <p>Reset:</p> -->
+      </div>
       <div id="maps" align="center">
         <p id="mapTex" class="text3">地圖：ERANGEL</p>
       </div>
@@ -44,8 +47,11 @@
       <div id="ranks" align="center">
         <div class="null">before</div>
         <p id="ranksTex" class="text3">玩家等級：</p>
+        <p class="text4">等級（1 - 10）代表玩家名次（高 - 低）</p>
       </div>
-      <div class="null">before</div><div class="null">before</div><div class="null">before</div>
+      <div class="null">before</div>
+      <div class="null">before</div>
+      <div class="null">before</div>
 
       <h2 class="text" align="center">Placement</h2>
       <hr />
@@ -58,11 +64,14 @@
       </div>
     </div>
     <div style="left: 20px; top: 910px; position: absolute;">
-        <p class="text3" align="center">時間軸</p>
-        <input type="range" multiple value="0,100" style="width: 800px;" />
+      <p class="text3" align="center">時間軸</p>
+      <input type="range" multiple value="0,100" style="width: 800px;" />
     </div>
     <div class="text2" align="center">
-    <div class="null">before</div><div class="null">before</div><div class="null">before</div><div class="null">before</div>
+      <div class="null">before</div>
+      <div class="null">before</div>
+      <div class="null">before</div>
+      <div class="null">before</div>
       <h2 class="text" align="center">Winner Position Map</h2>
       <hr />
       <div class="null">before</div>
@@ -71,17 +80,40 @@
       <div class="null">before</div>
       <div id="winnermap" align="center">
       </div>
-    <div align="center">
-      <h2 class="text">Description</h2>
-      <hr/>
-      <p class="text4">在地圖上標示玩家死亡位置分佈，可利用右方選項欄位篩選地圖、武器或玩家等級調整</p>
-      <p class="text4">在地圖下方，可藉由拉動時間軸，動態呈現遊戲時間及死亡分佈狀況的關係</p>
-      <p class="text4">在右方的長條圖中，可看出殺手及死亡玩家的等級分佈，且亦會隨篩選條件變動</p>
-      <p class="text4">而在最下方的地圖上，可看出獲勝玩家的位置分佈及最終使用的武器</p>
+      <div align="center">
+        <h2 class="text">Description</h2>
+        <hr />
+        <div class="text4" id="center_word" align="left">
+          <p class="text">Data Preprocessing：</p>
+          <p>1. 以 Set cover Optimization 演算法講資料集中的點縮減至 10000 筆</p>
+          <p>2. 將玩家根據其名次進行分級（Ex. 1-10 名為等級 1）</p>
+          <p>3. 由於資料為死亡玩家資料，因此藉由抓出名次為 2 之玩家，其 Killer Position 即吃雞玩家獲勝地點</p>
+        </div>
+        <div class="text4" id="left_word" align="left">
+          <p class="text">Overview：</p>
+          <p>1. 在地圖上以紅點標示玩家死亡位置，鼠標移動至點上可查看該玩家之詳細資訊</p>
+          <p>2. 拉動地圖下方時間軸，可動態呈現遊戲時間及死亡分佈狀況的關係</p>
+          <p>3. 利用右方選項欄位，根據不同地圖、武器或死亡玩家等級進行篩選調整</p>
+          <p>4. 由右方的名次長條圖，可看出殺手及死亡玩家的等級分佈，且亦會隨篩選條件變動</p>
+          <p>5. 在下方區塊的地圖上，可看出最終獲勝玩家的位置分佈</p>
+          <p>6. 亦可利用將鼠標移動至點上查看獲勝玩家姓名及最終使用的武器</p>
+        </div>
+        <div class="text4" id="right_word" align="left">
+          <p class="text">Insight：</p>
+          <p>1. 衝突區（死亡點密度高的地方）幾乎都在大城，但吃雞點通常不是在大城且吃雞地點分布平均</p>
+          <p>2. 拖拉時間軸可發現較早的死亡的那批玩家通常死在大城，可以看出玩家一開始跳傘較愛跳大城，也是物資比較多的地方</p>
+          <p>3. 玩家等級較前面的死亡資料，武器 M416 佔最多數</p>
+          <p>4. 時間軸前期和等級較低的玩家則不分武器，因為通常一落地撿到槍會直接開打，較不會管自己撿到什麼武器</p>
+          <p>5. 從 Killer Placement 可看出名次高的人殺的也較多，代表殺越多人吃雞的機率越高，所以我們認為一開始跳大城拿物資拼槍是值得冒險的（也可以順便練槍法）</p>
+        </div>
+
+      </div>
+f      <div class="null">before</div>
+      <div class="null">before</div>
+      <div class="null">before</div>
+      <div class="null">before</div>
     </div>
-    <div class="null">before</div><div class="null">before</div><div class="null">before</div><div class="null">before</div>
-  </div>
-  <script src="script.js"></script>
+    <script src="script.js"></script>
 </body>
 
 </html>
