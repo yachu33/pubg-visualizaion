@@ -339,7 +339,12 @@ d3.json(
 
 d3.csv("winners5000.csv").then(
   (win_data) => {
-    drawWinData(win_data);
+
+    let map_win = win_data.filter(function(d) {
+      return d.map == "ERANGEL";
+    });
+
+    drawWinData(map_win);
     let map_option = d3
       .select("#mapss")
       .selectAll("button")
