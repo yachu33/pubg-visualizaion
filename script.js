@@ -38,7 +38,9 @@ var div = d3.select("#all").append("div").attr("class", "tooltip").style("opacit
 let map_type = "ERANGEL",
   map_type_win = "ERANGEL",
   weapon = "",
-  rank = "";
+  rank = "",
+  t1 = "",
+  t2 = "";
 
 let yScale = d3.scaleLinear()
   .domain([0, 3000])
@@ -221,12 +223,26 @@ function drawBar(killed_data) {
     .text("Placement");
 }
 
-// d3.json(`https://pubg-flask.herokuapp.com/get_data?map=${map_type}`)
-d3.csv("kill5000.csv").then(
-  (killed_data) => {
-    // console.log(killed_data);
+d3.json(
+  `https://idyllic-chimera-280508.ue.r.appspot.com/get_data?map=${map_type}`
+)
+  // d3.csv("kill10000.csv")
+  .then((killed_data) => {
     drawData(killed_data);
     drawBar(killed_data);
+
+    let reset = d3.select("#reset")
+      .append("button")
+      .text("全部清除")
+      .on("click", function(){
+        weapon = "";
+        t1 = "";
+        t2 = "";
+        rank = "";
+        d3.select("#weaponsTex").text("Weapons: ");
+        d3.select("#ranksTex").text("Ranks: ");
+        resetOptions(map_type);
+    });
     let map_options = d3
       .select("#maps")
       .selectAll("button")
@@ -235,30 +251,36 @@ d3.csv("kill5000.csv").then(
       .append("button")
       .attr("value", (d) => d)
       .text((d) => d)
-      .on("click", function() {
+      .on("click", function () {
         if (map_type != this.value) {
           map_type = this.value;
           drawMap(map_type);
-          updateData(this.value, weapon, rank);
+          d3.select("#mapTex").text("Maps: " + map_type);
+          weapon="";
+          t1="";
+          t2="";
+          rank="";
+          updateData(this.value, weapon, t1, t2, rank);
         }
       });
-
     const weapons = killed_data.map((item) => item.killed_by);
     const distinctWeapon = [...new Set(weapons)];
+    // console.log(distinctWeapon);
     let weapon_options = d3
       .select("#weapons")
       .append("input")
       .attr("type", "text")
       .attr("list", "weapon-list")
-      .on("focus", function() {
+      .on("focus", function () {
         this.value = "";
       })
-      .on("mouseenter", function() {
+      .on("mouseenter", function () {
         this.value = "";
       })
-      .on("change", function() {
+      .on("change", function () {
         weapon = this.value;
-        updateData(map_type, this.value, rank);
+        d3.select("#weaponsTex").text("Weapons: " + weapon);
+        updateData(map_type, this.value, t1, t2, rank);
       });
 
     let dlist = d3
@@ -282,12 +304,36 @@ d3.csv("kill5000.csv").then(
       .append("button")
       .attr("value", (d) => d)
       .text((d) => d)
-      .on("click", function() {
+      .on("click", function () {
         rank = this.value;
-        updateData(map_type, weapon, this.value);
+        d3.select("#ranksTex").text("Ranks: " + rank);
+
+        updateData(map_type, weapon, t1, t2, this.value);
       });
-  }
-);
+    
+    d3.select(".multirange.original")
+    .on("change", function() {
+      low = d3.select(".multirange.ghost").style("--low");
+      high = d3.select(".multirange.ghost").style("--high");
+      t1 = (+low.replace("%", "")-1) * 0.01 * 2000;
+      t2 = (+high.replace("%", "")+1) * 0.01 * 2000;
+      updateData(map_type, weapon, t1, t2, rank);
+
+      console.log(t1, t2);
+      
+      
+    })
+    d3.select(".multirange.ghost")
+    .on("change", function () {
+      low = d3.select(".multirange.ghost").style("--low");
+      high = d3.select(".multirange.ghost").style("--high");
+       t1 = (+low.replace("%", "") - 1) * 0.01 * 2000;
+       t2 = (+high.replace("%", "") + 1) * 0.01 * 2000;
+      updateData(map_type, weapon, t1, t2, rank);
+      console.log(t1, t2);
+    });
+      
+  });
 
 d3.csv("5000winner.csv").then(
   (win_data) => {
@@ -330,6 +376,15 @@ function drawMap(map_type) {
 }
 drawMap(map_type);
 
+function updateData(map_type, weapon, t1, t2, rank) {
+  d3.json(
+    `https://idyllic-chimera-280508.ue.r.appspot.com/get_data?map=${map_type}&weapon=${weapon}&time1=${t1}&time2=${t2}&rank=${rank}`
+  ).then((killed_data) => {
+    svg.selectAll("circle").remove();
+    drawData(killed_data);
+    drawBar(killed_data);
+  });
+}
 function drawWinMap(map_type_win) {
   winnermap_svg.selectAll("image").remove();
 
@@ -348,18 +403,6 @@ function drawWinMap(map_type_win) {
   }
 }
 drawWinMap(map_type_win);
-
-function updateData(map_type, weapon, rank) {
-  // d3.json(
-  //   `https://pubg-flask.herokuapp.com/get_data?map=${map_type}&weapon=${weapon}`
-  // )
-  d3.csv("kill5000.csv").then((killed_data) => {
-    svg.selectAll("circle").remove();
-    drawData(killed_data);
-    drawBar(killed_data);
-  });
-}
-
 function updateWinData(map_type_win) {
   // d3.json(
   //   `https://pubg-flask.herokuapp.com/get_data?map=${map_type}&weapon=${weapon}`
@@ -401,4 +444,8 @@ function mouseoverWin(d) {
 function mouseout(d) {
   div.transition()
     .style("opacity", 0);
+}
+
+function resetOptions(map_type) {
+  updateData(map_type, "", "", "", "");
 }

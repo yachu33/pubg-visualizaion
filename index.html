@@ -2,11 +2,14 @@
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>PUBG</title>
-  <script src="https://d3js.org/d3.v5.min.js"></script>
-  <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PUBG</title>
+    <script src="multirange.js"></script>
+    <link rel="stylesheet" href="multirange.css">
+    <script src="https://d3js.org/d3.v5.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="style.css">
 </head>
 
 <body style="background-color:#091D2C">
@@ -22,24 +25,27 @@
       <h2 class="text" align="center">Victim Position Map</h2>
       <hr />
     </div>
-
     <div id="left" align="left">
-      <h2 class="text" align="center">Options</h2>
-      <hr />
+        <h2 class="text" align="center">Options</h2>
+        <hr />
+        <div id="reset" align="center">
+            <!-- <p>Reset:</p> -->
+        </div>
       <div id="maps" align="center">
-        <p class="text3">Maps</p>
+        <p id="mapTex" class="text3">Maps: ERANGEL</p>
       </div>
 
       <div id="weapons" align="center">
         <div class="null">before</div>
-        <p class="text3">Weapons</p>
+        <p id="weaponsTex" class="text3">Weapons:</p>
       </div>
 
       <div id="ranks" align="center">
         <div class="null">before</div>
-        <p class="text3">Ranks</p>
+        <p id="ranksTex" class="text3">Ranks:</p>
+        <p class="text3">玩家等級：</p>
       </div>
-      <div class="null">before</div><div class="null">before</div><div class="null">before</div><div class="null">before</div>
+      <div class="null">before</div><div class="null">before</div><div class="null">before</div>
 
       <h2 class="text" align="center">Placement</h2>
       <hr />
@@ -51,6 +57,11 @@
         <p class="text3">Victim Placement</p>
       </div>
     </div>
+    <div style="left: 20px; top: 910px; position: absolute;">
+        <p class="text3" align="center">Timeline:</p>
+        <input type="range" multiple value="0,100" style="width: 800px;" />
+    </div>
+    <div class="text" align="center">
     <div class="null">before</div><div class="null">before</div><div class="null">before</div><div class="null">before</div>
       <h2 class="text" align="center">Winner Position Map</h2>
       <hr />
